@@ -1,0 +1,4 @@
+PremiumLock:
+  use: true
+  all_users: true
+  server: "Hub"

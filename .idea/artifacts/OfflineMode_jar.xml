@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="OfflineMode:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/OfflineMode_jar</output-path>
+    <root id="archive" name="OfflineMode.jar">
+      <element id="module-output" name="OfflineMode" />
+    </root>
+  </artifact>
+</component>
