@@ -30,10 +30,10 @@ public class SpigotChecker {
                 // SAME VERSION
                 return 0x01;
             } else {
-                if (String.valueOf(newVersion.charAt(0)).equalsIgnoreCase("N")) {
+                if (newVersion.contains("N")) {
                     // NECESSARY
                     return 0x02;
-                } else if (String.valueOf(newVersion.charAt(0)).equalsIgnoreCase("S")) {
+                } else if (newVersion.contains("S")) {
                     // SHOULD BE DOWNLOADED
                     return 0x03;
                 } else {
