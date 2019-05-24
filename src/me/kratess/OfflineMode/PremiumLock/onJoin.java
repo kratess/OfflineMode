@@ -63,13 +63,17 @@ public class onJoin implements Listener {
     public void connectEvent(ServerConnectEvent e) {
         if (!FilesManager.Config.getString("PremiumLock.switch_server.server").isEmpty()) {
 
-            ServerInfo server = ProxyServer.getInstance().getServerInfo(FilesManager.Config.getString("PremiumLock.switch_server.server"));
-            ProxiedPlayer p = e.getPlayer();
+            if (e.getPlayer().getPendingConnection().isOnlineMode()) {
 
-            if (p.getPendingConnection().isOnlineMode()) {
-                if (e.getReason().equals(ServerConnectEvent.Reason.JOIN_PROXY)) {
-                    e.setTarget(server);
+                ServerInfo server = ProxyServer.getInstance().getServerInfo(FilesManager.Config.getString("PremiumLock.switch_server.server"));
+                ProxiedPlayer p = e.getPlayer();
+
+                if (p.getPendingConnection().isOnlineMode()) {
+                    if (e.getReason().equals(ServerConnectEvent.Reason.JOIN_PROXY)) {
+                        e.setTarget(server);
+                    }
                 }
+
             }
         }
     }
