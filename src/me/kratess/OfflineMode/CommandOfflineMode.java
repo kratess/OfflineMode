@@ -26,7 +26,7 @@ public class CommandOfflineMode extends Command {
                 FilesManager.reloadPremiumUsers();
                 sender.sendMessage(fromString("OfflineMode reloaded"));
             } else if (args[0].equalsIgnoreCase("premiumlock")) {
-                for (String d : FilesManager.Config.getSection("Premi2umLock").getKeys()) {
+                for (String d : FilesManager.Config.getSection("PremiumLock").getKeys()) {
                     sender.sendMessage(fromString("PremiumLock::"+d+" " + (FilesManager.Config.get("PremiumLock."+d) instanceof Boolean ?
                             (FilesManager.Config.getBoolean("PremiumLock."+d) ? "§atrue" : "§cfalse") :
                             FilesManager.Config.get("PremiumLock."+d) instanceof Integer ?
