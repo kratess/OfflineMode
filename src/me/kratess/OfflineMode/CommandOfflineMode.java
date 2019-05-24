@@ -27,7 +27,11 @@ public class CommandOfflineMode extends Command {
                 sender.sendMessage(fromString("OfflineMode reloaded"));
             } else if (args[0].equalsIgnoreCase("premiumlock")) {
                 for (String d : FilesManager.Config.getSection("PremiumLock").getKeys()) {
-                    sender.sendMessage(fromString("PremiumLock::"+d+" " + (FilesManager.Config.getBoolean("PremiumLock."+d) ? "§atrue" : "§cfalse")));
+                    sender.sendMessage(fromString("PremiumLock::"+d+" " + (FilesManager.Config.get("PremiumLock."+d) instanceof Boolean ?
+                            (FilesManager.Config.getBoolean("PremiumLock."+d) ? "§atrue" : "§cfalse") :
+                            FilesManager.Config.get("PremiumLock."+d) instanceof Integer ?
+                                    FilesManager.Config.getInt("PremiumLock."+d) :
+                                    "\"" + FilesManager.Config.getString("PremiumLock."+d) + "\"")));
                 }
             } else {
                 sendHelp(sender);
@@ -37,7 +41,11 @@ public class CommandOfflineMode extends Command {
                 boolean found = false;
                 for (String d : FilesManager.Config.getSection("PremiumLock").getKeys()) {
                     if (args[1].equalsIgnoreCase(d)) {
-                        sender.sendMessage(fromString("PremiumLock::"+d+" " + (FilesManager.Config.getBoolean("PremiumLock."+d) ? "§atrue" : "§cfalse")));
+                        sender.sendMessage(fromString("PremiumLock::"+d+" " + (FilesManager.Config.get("PremiumLock."+d) instanceof Boolean ?
+                                (FilesManager.Config.getBoolean("PremiumLock."+d) ? "§atrue" : "§cfalse") :
+                                FilesManager.Config.get("PremiumLock."+d) instanceof Integer ?
+                                        FilesManager.Config.getInt("PremiumLock."+d) :
+                                        "\"" + FilesManager.Config.getString("PremiumLock."+d) + "\"")));
                         found = true;
                         break;
                     }
@@ -45,7 +53,11 @@ public class CommandOfflineMode extends Command {
 
                 if (!found) {
                     for (String d : FilesManager.Config.getSection("PremiumLock").getKeys()) {
-                        sender.sendMessage(fromString("PremiumLock::" + d + " " + (FilesManager.Config.getBoolean("PremiumLock." + d) ? "§atrue" : "§cfalse")));
+                        sender.sendMessage(fromString("PremiumLock::"+d+" " + (FilesManager.Config.get("PremiumLock."+d) instanceof Boolean ?
+                                (FilesManager.Config.getBoolean("PremiumLock."+d) ? "§atrue" : "§cfalse") :
+                                FilesManager.Config.get("PremiumLock."+d) instanceof Integer ?
+                                        FilesManager.Config.getInt("PremiumLock."+d) :
+                                        "\"" + FilesManager.Config.getString("PremiumLock."+d) + "\"")));
                     }
                 }
             } else {
@@ -56,7 +68,7 @@ public class CommandOfflineMode extends Command {
                 boolean found = false;
                 for (String d : FilesManager.Config.getSection("PremiumLock").getKeys()) {
                     if (args[1].equalsIgnoreCase(d)) {
-                        FilesManager.Config.set("PremiumLock." + d, Boolean.valueOf(args[2]));
+                        FilesManager.Config.set("PremiumLock." + d, args[2].equalsIgnoreCase("true") || args[2].equalsIgnoreCase("false") ? Boolean.valueOf(args[2]) : args[2].matches("[0-9]+") ? Integer.valueOf(args[2]) : args[2]);
                         FilesManager.saveConfig();
                         FilesManager.reloadConfig();
                         sender.sendMessage(fromString("PremiumLock::" + d + " set to " + args[2]));
@@ -67,7 +79,11 @@ public class CommandOfflineMode extends Command {
 
                 if (!found) {
                     for (String d : FilesManager.Config.getSection("PremiumLock").getKeys()) {
-                        sender.sendMessage(fromString("PremiumLock::" + d + " " + (FilesManager.Config.getBoolean("PremiumLock." + d) ? "§atrue" : "§cfalse")));
+                        sender.sendMessage(fromString("PremiumLock::"+d+" " + (FilesManager.Config.get("PremiumLock."+d) instanceof Boolean ?
+                                (FilesManager.Config.getBoolean("PremiumLock."+d) ? "§atrue" : "§cfalse") :
+                                FilesManager.Config.get("PremiumLock."+d) instanceof Integer ?
+                                        FilesManager.Config.getInt("PremiumLock."+d) :
+                                        "\"" + FilesManager.Config.getString("PremiumLock."+d) + "\"")));
                     }
                 }
             } else if (args[0].equalsIgnoreCase("premiumusers")) {

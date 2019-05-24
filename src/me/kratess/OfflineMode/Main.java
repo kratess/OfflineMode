@@ -2,6 +2,7 @@ package me.kratess.OfflineMode;
 
 import me.kratess.OfflineMode.PremiumLock.onJoin;
 import me.kratess.OfflineMode.Utils.FilesManager;
+import me.kratess.OfflineMode.Utils.Metrics;
 import me.kratess.OfflineMode.Utils.SpigotChecker;
 import net.md_5.bungee.api.plugin.Plugin;
 
@@ -27,6 +28,8 @@ public class Main extends Plugin {
         }
 
         new FilesManager();
+
+        Metrics metrics = new Metrics(this);
 
         getProxy().getPluginManager().registerListener(this, new onJoin());
         getProxy().getPluginManager().registerCommand(this, new CommandOfflineMode());
