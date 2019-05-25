@@ -1,50 +1,79 @@
 package me.kratess.OfflineMode.Utils;
 
 import me.kratess.OfflineMode.Main;
+import org.apache.logging.log4j.core.util.IOUtils;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.ArrayList;
 
 public class SpigotChecker {
+    private static final String USER_AGENT  = "PluginAgent";// Change this!
+    private static final String REQUEST_URL = "https://www.spigotmc.org/resources/offlinemode.67561/history";
 
-    private final int projectID = 67561;
-    private URL checkURL;
+    private int version_behind = -1;
+    // SAME VERSION
+    private int status = 0x01;
 
     public SpigotChecker() {
         try {
-            this.checkURL = new URL("https://api.spigotmc.org/legacy/update.php?resource=" + projectID);
-        } catch (MalformedURLException ex) {
-            ex.printStackTrace();
-        }
-    }
+            URL url = new URL(REQUEST_URL);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.addRequestProperty("User-Agent", USER_AGENT);
 
-    public int checkForUpdates() {
-        try {
-            URLConnection con = checkURL.openConnection();
-            String newVersion = new BufferedReader(new InputStreamReader(con.getInputStream())).readLine();
-            if (Main.instance.getDescription().getVersion().equalsIgnoreCase(newVersion)) {
-                // SAME VERSION
-                return 0x01;
-            } else {
-                if (newVersion.contains("N")) {
-                    // NECESSARY
-                    return 0x02;
-                } else if (newVersion.contains("S")) {
-                    // SHOULD BE DOWNLOADED
-                    return 0x03;
-                } else {
-                    // BAISC BUGS
-                    return 0x04;
+            InputStream inputStream = connection.getInputStream();
+            InputStreamReader reader = new InputStreamReader(inputStream);
+
+            String result = IOUtils.toString(reader);
+
+            ArrayList<String> splitteds = new ArrayList<>();
+            for (String d : result.split("<table class=\"dataTable resourceHistory\">")[1].split("</table>")[0].split("<tr class=\"dataRow  \">")) {
+                if (d.contains("<td class=\"version\">")) {
+                    splitteds.add(d.split("<td class=\"version\">")[1].split("</td>")[0]);
                 }
             }
-        } catch (IOException ex) {
+
+            ArrayList<String> newest_versions = new ArrayList<>();
+
+            String actual_version = Main.instance.getDescription().getVersion();
+
+            for (String d : splitteds) {
+                if (d.equalsIgnoreCase(actual_version)) {
+                    break;
+                } else {
+                    newest_versions.add(d);
+                    if (d.contains("N")) {
+                        // NECESSARY
+                        status = 0x02;
+                    } else if (d.contains("S") && status == 0x01) {
+                        // SHOULD BE DOWNLOADED
+                        status = 0x03;
+                    } else if (status == 0x01) {
+                        // BAISC BUGS
+                        status = 0x04;
+                    }
+                }
+            }
+
+            version_behind = newest_versions.size();
+        } catch (IOException e) {
             // NO INTERNET
-            return 0x00;
+            status = 0x00;
+            e.printStackTrace();
         }
     }
 
+    public int getVersion_behind() {
+        return version_behind;
+    }
+
+    public int getStatus() {
+        return status;
+    }
 }

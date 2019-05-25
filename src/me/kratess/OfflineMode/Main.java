@@ -14,7 +14,11 @@ public class Main extends Plugin {
     public void onEnable() {
         instance = this;
 
-        switch (new SpigotChecker().checkForUpdates()) {
+        System.out.println("Checking for updates...");
+        if (new SpigotChecker().getVersion_behind() >= 1) {
+            System.out.println("This plugin is " + new SpigotChecker().getVersion_behind() + " version behind latest");
+        }
+        switch (new SpigotChecker().getStatus()) {
             case 0x00:
                 break;
             case 0x01:
