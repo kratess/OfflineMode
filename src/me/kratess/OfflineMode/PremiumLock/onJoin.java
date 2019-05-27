@@ -61,11 +61,11 @@ public class onJoin implements Listener {
 
     @EventHandler
     public void connectEvent(ServerConnectEvent e) {
-        if (!FilesManager.Config.getString("PremiumLock.switch_server.server").isEmpty()) {
+        if (!FilesManager.Config.getString("PremiumLock.switch_server").isEmpty()) {
 
             if (e.getPlayer().getPendingConnection().isOnlineMode()) {
 
-                ServerInfo server = ProxyServer.getInstance().getServerInfo(FilesManager.Config.getString("PremiumLock.switch_server.server"));
+                ServerInfo server = ProxyServer.getInstance().getServerInfo(FilesManager.Config.getString("PremiumLock.switch_server"));
                 ProxiedPlayer p = e.getPlayer();
 
                 if (p.getPendingConnection().isOnlineMode()) {

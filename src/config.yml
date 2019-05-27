@@ -1,4 +1,4 @@
 PremiumLock:
   use: true
   all_users: true
-  server: "Hub"
+  switch_server: "Hub"
