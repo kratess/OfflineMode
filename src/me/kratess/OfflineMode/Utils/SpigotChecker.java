@@ -1,7 +1,8 @@
 package me.kratess.OfflineMode.Utils;
 
 import me.kratess.OfflineMode.Main;
-import org.apache.logging.log4j.core.util.IOUtils;
+import sun.misc.IOUtils;
+import sun.nio.ch.IOUtil;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -12,6 +13,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class SpigotChecker {
     private static final String USER_AGENT  = "PluginAgent";// Change this!
@@ -30,7 +32,8 @@ public class SpigotChecker {
             InputStream inputStream = connection.getInputStream();
             InputStreamReader reader = new InputStreamReader(inputStream);
 
-            String result = IOUtils.toString(reader);
+            Scanner s = new Scanner(inputStream).useDelimiter("\\A");
+            String result = s.hasNext() ? s.next() : "";
 
             ArrayList<String> splitteds = new ArrayList<>();
             for (String d : result.split("<table class=\"dataTable resourceHistory\">")[1].split("</table>")[0].split("<tr class=\"dataRow  \">")) {
