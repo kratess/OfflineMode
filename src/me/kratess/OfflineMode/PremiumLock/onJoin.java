@@ -35,6 +35,19 @@ public class onJoin implements Listener {
 
             if (FilesManager.Config.getBoolean("PremiumLock.all_users")) {
                 if (uuid != null) {
+                    for (String d : FilesManager.PremiumUsers.getSection("users").getKeys()) {
+                        if (d.replaceAll("-", "").equalsIgnoreCase(uuid)) {
+                            if (FilesManager.PremiumUsers.getString("users."+d+".ip") != "") {
+                                String ip = e.getConnection().toString().split("\\[/")[1].split(":")[0];
+                                if (!ip.equalsIgnoreCase(FilesManager.PremiumUsers.getString("users."+d+".ip"))) {
+                                    e.setCancelled(true);
+                                    e.setCancelReason(new TextComponent("§4There was an error. Please contact an administrator"));
+                                    return;
+                                }
+                            }
+                            break;
+                        }
+                    }
                     e.getConnection().setOnlineMode(true);
                 }
             } else {
