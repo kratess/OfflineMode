@@ -38,19 +38,34 @@ public class checkMethods {
         }
     }
 
-    /*private boolean serversOnline() {
+    public static String getProxyCheck(String ip) {
         try {
-            String url = "https://sessionserver.mojang.com/";
+            String url = "https://proxycheck.io/v2/"+ip+"?asn=1&node=1&time=1&inf=0&risk=1&port=1";
 
             URL obj = new URL(url);
             HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 
             int responseCode = con.getResponseCode();
 
-            return true;
+            BufferedReader in = new BufferedReader(
+                    new InputStreamReader(con.getInputStream()));
+            String inputLine;
+            StringBuffer response = new StringBuffer();
+
+            while ((inputLine = in.readLine()) != null) {
+                response.append(inputLine);
+            }
+
+            in.close();
+
+            if (responseCode == 204 || responseCode == 404) {
+                return null;
+            } else {
+                return response.toString();
+            }
         } catch (IOException ex) {
-            return false;
+            return null;
         }
-    }*/
+    }
 
 }

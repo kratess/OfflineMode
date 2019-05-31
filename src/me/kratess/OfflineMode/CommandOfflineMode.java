@@ -1,5 +1,6 @@
 package me.kratess.OfflineMode;
 
+import me.kratess.OfflineMode.Utils.BotAttack;
 import me.kratess.OfflineMode.Utils.FilesManager;
 import me.kratess.OfflineMode.Utils.checkMethods;
 import net.md_5.bungee.api.CommandSender;

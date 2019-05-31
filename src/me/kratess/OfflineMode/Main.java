@@ -1,10 +1,13 @@
 package me.kratess.OfflineMode;
 
 import me.kratess.OfflineMode.PremiumLock.onJoin;
+import me.kratess.OfflineMode.Utils.BotAttack;
 import me.kratess.OfflineMode.Utils.FilesManager;
 import me.kratess.OfflineMode.Utils.Metrics;
 import me.kratess.OfflineMode.Utils.SpigotChecker;
 import net.md_5.bungee.api.plugin.Plugin;
+
+import java.util.concurrent.TimeUnit;
 
 public class Main extends Plugin {
 
@@ -38,7 +41,10 @@ public class Main extends Plugin {
         Metrics metrics = new Metrics(this);
 
         getProxy().getPluginManager().registerListener(this, new onJoin());
+        getProxy().getPluginManager().registerListener(this, new me.kratess.OfflineMode.NoProxy.onJoin());
         getProxy().getPluginManager().registerCommand(this, new CommandOfflineMode());
+
+        getProxy().getScheduler().schedule(this, new BotAttack(), 1, 1, TimeUnit.SECONDS);
     }
 
 }
