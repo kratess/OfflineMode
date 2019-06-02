@@ -47,6 +47,7 @@ public class SpigotChecker {
             String actual_version = Main.instance.getDescription().getVersion();
 
             for (String d : splitteds) {
+                d = d.split(" ")[0];
                 if (d.equalsIgnoreCase(actual_version)) {
                     break;
                 } else {
