@@ -45,6 +45,33 @@ public class Main extends Plugin {
         getProxy().getPluginManager().registerCommand(this, new CommandOfflineMode());
 
         getProxy().getScheduler().schedule(this, new BotAttack(), 1, 1, TimeUnit.SECONDS);
+
+        getProxy().getScheduler().schedule(this, new CheckSpigotEveryTime(), 30, 30, TimeUnit.MINUTES);
+    }
+
+    public class CheckSpigotEveryTime implements Runnable {
+
+        @Override
+            public void run() {
+            switch (new SpigotChecker().getStatus()) {
+                case 0x00:
+                    break;
+                case 0x01:
+                    break;
+                case 0x02:
+                    getLogger().severe("***");
+                    getLogger().severe("Older plugin versions are vulnerable.");
+                    getLogger().severe("YOU MUST DOWNLOAD THE NEWEST VERSION!");
+                    getLogger().severe("");
+                    getLogger().severe("This error could be vulnerable for your server!!!");
+                    getLogger().severe("");
+                    getLogger().severe("PLEASE UPDATE PLUGIN");
+                    getLogger().severe("");
+                    getLogger().severe("***");
+                case 0x03:
+                    getLogger().info("You should download the newest version");
+            }
+        }
     }
 
 }
