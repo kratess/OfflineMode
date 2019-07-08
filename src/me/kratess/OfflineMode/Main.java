@@ -1,5 +1,6 @@
 package me.kratess.OfflineMode;
 
+import me.kratess.OfflineMode.PremiumLock.Command;
 import me.kratess.OfflineMode.PremiumLock.onJoin;
 import me.kratess.OfflineMode.Utils.BotAttack;
 import me.kratess.OfflineMode.Utils.FilesManager;
@@ -43,6 +44,9 @@ public class Main extends Plugin {
         getProxy().getPluginManager().registerListener(this, new onJoin());
         getProxy().getPluginManager().registerListener(this, new me.kratess.OfflineMode.NoProxy.onJoin());
         getProxy().getPluginManager().registerCommand(this, new CommandOfflineMode());
+        if (!FilesManager.Config.getString("PremiumLock.command").equalsIgnoreCase("")) {
+            getProxy().getPluginManager().registerCommand(this, new Command());
+        }
 
         getProxy().getScheduler().schedule(this, new BotAttack(), 1, 1, TimeUnit.SECONDS);
 

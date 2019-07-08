@@ -2,3 +2,4 @@ PremiumLock:
   use: true
   all_users: true
   switch_server: "Hub"
+  command: "premium"
