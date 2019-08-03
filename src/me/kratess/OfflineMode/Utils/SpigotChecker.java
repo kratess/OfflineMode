@@ -1,5 +1,8 @@
 package me.kratess.OfflineMode.Utils;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import me.kratess.OfflineMode.Main;
 import sun.misc.IOUtils;
 import sun.nio.ch.IOUtil;
@@ -13,11 +16,12 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Scanner;
 
 public class SpigotChecker {
-    private static final String USER_AGENT  = "PluginAgent";// Change this!
-    private static final String REQUEST_URL = "https://www.spigotmc.org/resources/offlinemode.67561/history";
+    private static final String USER_AGENT  = "PluginAgent";
+    private static final String REQUEST_URL = "https://api.spiget.org/v2/resources/67561/versions?size=100";
 
     private int version_behind = -1;
     // SAME VERSION
@@ -32,15 +36,15 @@ public class SpigotChecker {
             InputStream inputStream = connection.getInputStream();
             InputStreamReader reader = new InputStreamReader(inputStream);
 
-            Scanner s = new Scanner(inputStream).useDelimiter("\\A");
-            String result = s.hasNext() ? s.next() : "";
-
             ArrayList<String> splitteds = new ArrayList<>();
-            for (String d : result.split("<table class=\"dataTable resourceHistory\">")[1].split("</table>")[0].split("<tr class=\"dataRow  \">")) {
-                if (d.contains("<td class=\"version\">")) {
-                    splitteds.add(d.split("<td class=\"version\">")[1].split("</td>")[0]);
-                }
+
+            JsonElement element = new JsonParser().parse(reader);
+
+            for (JsonElement js : element.getAsJsonArray()) {
+                splitteds.add(js.getAsJsonObject().get("name").getAsString());
             }
+
+            Collections.reverse(splitteds);
 
             ArrayList<String> newest_versions = new ArrayList<>();
 

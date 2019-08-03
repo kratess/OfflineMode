@@ -53,6 +53,7 @@ public class Main extends Plugin {
                     getLogger().severe("PLEASE UPDATE PLUGIN");
                     getLogger().severe("");
                     getLogger().severe("***");
+                    getProxy().stop();
                 case 0x03:
                     getLogger().info("You should download the newest version");
             }
