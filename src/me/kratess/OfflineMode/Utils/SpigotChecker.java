@@ -50,9 +50,12 @@ public class SpigotChecker {
 
             String actual_version = Main.instance.getDescription().getVersion();
 
+            boolean is_updated_version = false;
+
             for (String d : splitteds) {
                 d = d.split(" ")[0];
                 if (d.equalsIgnoreCase(actual_version)) {
+                    is_updated_version = true;
                     break;
                 } else {
                     newest_versions.add(d);
@@ -67,6 +70,10 @@ public class SpigotChecker {
                         status = 0x04;
                     }
                 }
+            }
+
+            if (!is_updated_version) {
+                status = 0x01;
             }
 
             version_behind = newest_versions.size();

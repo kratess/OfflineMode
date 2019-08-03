@@ -32,6 +32,9 @@ public class Main extends Plugin {
         }
 
         getProxy().getScheduler().schedule(this, new BotAttack(), 1, 1, TimeUnit.SECONDS);
+
+        getLogger().info("OfflineMode has been activated and SpigotUpdater is successfully working");
+        getLogger().info("It is advisable to manually check the new versions");
     }
 
     public class CheckSpigotEveryTime implements Runnable {
@@ -45,6 +48,7 @@ public class Main extends Plugin {
                     break;
                 case 0x02:
                     getLogger().severe("***");
+                    getLogger().severe("");
                     getLogger().severe("Older plugin versions are vulnerable.");
                     getLogger().severe("YOU MUST DOWNLOAD THE NEWEST VERSION!");
                     getLogger().severe("");
